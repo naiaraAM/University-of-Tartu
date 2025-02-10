@@ -1,0 +1,15 @@
+version: '2'
+services:
+  back:
+    container_name: back
+    restart: always
+    image: algo-back
+    ports:
+      - "8001:8001"
+
+  front:
+    container_name: front
+    restart: always
+    image: algo-front
+    ports:
+      - "3000:3000"

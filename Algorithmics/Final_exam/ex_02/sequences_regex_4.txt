@@ -1,0 +1,10 @@
+cb
+bba
+cbbcb
+bbabbaabba
+cbbacbbcbbaacbb
+cbbbbabbacbbacbbcbbc
+cbbbbabbaaabbabbacbbaabbaaabba
+acbbcbbabbabbabbacbbcbbbbaaaaaaabbaaabba
+cbbcbbcbbbbacbbaacbbbbabbabbacbbcbbcbbaaacbbcbbbba
+aaaabbacbbbbacbbabbabbaacbbcbbbbacbbbbabbacbbcbbbbacbbcbbbba

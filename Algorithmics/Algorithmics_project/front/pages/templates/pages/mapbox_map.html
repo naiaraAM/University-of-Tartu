@@ -1,0 +1,147 @@
+<!-- pages/templates/mapbox_map.html -->
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <title>Interactive Map with Mapbox</title>
+    <meta name="viewport" content="initial-scale=1,maximum-scale=1,user-scalable=no" />
+    <!-- Mapbox GL JS CSS -->
+    <link href="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.css" rel="stylesheet" />
+    <style>
+        body { margin: 0; padding: 0; }
+        /* Set a fixed height for the map container */
+        #map { width: 100%; height: 80vh; }
+        /* Style for the form */
+        #input-form {
+            margin: 20px;
+        }
+        #input-form input {
+            margin-right: 10px;
+        }
+        /* Error message styling */
+        #error-message {
+            color: red;
+            margin: 20px;
+        }
+    </style>
+</head>
+<body>
+    <!-- Input Form for Latitude and Longitude -->
+    <form id="input-form" method="get">
+        <label for="latitude">Latitude:</label>
+        <input type="text" name="latitude" id="latitude" value="{{ request.GET.latitude }}" required>
+        <label for="longitude">Longitude:</label>
+        <input type="text" name="longitude" id="longitude" value="{{ request.GET.longitude }}" required>
+        <button type="submit">Add Point</button>
+    </form>
+
+    <!-- Display valid latitude and longitude ranges -->
+    <p style="margin: 20px;">
+        Valid Latitude Range: {{ min_lat }} to {{ max_lat }}<br>
+        Valid Longitude Range: {{ min_lng }} to {{ max_lng }}
+    </p>
+
+    <!-- Display error message if it exists -->
+    {% if error_message %}
+    <div id="error-message">
+        {{ error_message }}
+    </div>
+    {% endif %}
+
+    <!-- Map Container -->
+    <div id="map"></div>
+
+    <!-- Mapbox GL JS -->
+    <script src="https://api.mapbox.com/mapbox-gl-js/v2.15.0/mapbox-gl.js"></script>
+
+    <script>
+        // Access the Mapbox access token passed from Django view
+        mapboxgl.accessToken = '{{ mapbox_access_token }}';
+
+        // Initialize the map
+        const map = new mapboxgl.Map({
+            container: 'map', // Container ID
+            style: 'mapbox://styles/mapbox/streets-v12', // Map style to use
+            center: [0, 0], // Temporary center coordinate
+            zoom: 2 // Zoom level
+        });
+
+        // Add navigation controls (zoom buttons)
+        map.addControl(new mapboxgl.NavigationControl());
+
+        // Retrieve and parse the data passed from the view
+        const locations = JSON.parse('{{ locations|escapejs }}');
+
+        // Use JSON.parse() and escapejs filter to safely parse inputPoint and nearestStops
+        const inputPoint = JSON.parse('{{ input_point|default:"null"|escapejs }}');
+        const nearestStops = JSON.parse('{{ nearest_stops|default:"[]"|escapejs }}');
+
+        // Initialize bounds
+        const bounds = new mapboxgl.LngLatBounds();
+
+        // Function to add a marker to the map
+        function addMarker(lng, lat, color, popupText = null) {
+            const marker = new mapboxgl.Marker({ color: color })
+                .setLngLat([lng, lat])
+                .addTo(map);
+
+            if (popupText) {
+                const popup = new mapboxgl.Popup({ offset: 25 })
+                    .setText(popupText);
+                marker.setPopup(popup);
+            }
+
+            // Extend map bounds to include this marker
+            bounds.extend([lng, lat]);
+        }
+
+        // Add markers for each location
+        locations.forEach(function(location) {
+            // Check if the location is among the nearest stops
+
+            // console.log(location.id, nearestStops[0].id);
+            // var isNearest = false;
+            // for (let i = 0; i < nearestStops; i++) {
+            //     if (nearestStops[i].id === location.id) {
+            //         isNearest = true;
+            //         break;
+            //     }
+            // }
+            //
+            var isNearest = nearestStops.some(function(nearest) {
+                console.log(nearest.id, location.id);
+                return nearest.id === location.id;
+            });
+
+            // var isNearest = nearestStops.some(function(nearest) {
+            //     return nearest.lat === location.lat && nearest.lng === location.lng;
+            // });
+
+            // Set marker color based on whether it's a nearest stop
+            var color = isNearest ? 'orange' : 'blue';
+
+            addMarker(location.lng, location.lat, color);
+        });
+
+        // Add the input point if it exists
+        if (inputPoint !== null) {
+            addMarker(inputPoint.lng, inputPoint.lat, 'red', 'Input Point');
+        }
+
+        // Fit the map to the bounds of the markers
+        if (!bounds.isEmpty()) {
+            map.fitBounds(bounds, { padding: 50 });
+        } else {
+            // Set default view if no markers
+            map.setCenter([0, 0]);
+            map.setZoom(2);
+        }
+
+        // Log any potential errors in JavaScript
+        console.log('Mapbox access token:', mapboxgl.accessToken);
+        console.log('Locations:', locations);
+        console.log('Input Point:', inputPoint);
+        console.log('Nearest Stops:', nearestStops);
+    </script>
+</body>
+</html>

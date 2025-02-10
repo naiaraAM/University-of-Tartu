@@ -1,0 +1,109 @@
+igraph {
+	root [label=root]
+	root_b [label=b]
+	root -> root_b
+	root_b_ba [label=ba]
+	root_b -> root_b_ba
+	root_b_ba_ban [label=ban]
+	root_b_ba -> root_b_ba_ban
+	root_b_ba_ban_bana [label=bana]
+	root_b_ba_ban -> root_b_ba_ban_bana
+	root_b_ba_ban_bana_banan [label=banan]
+	root_b_ba_ban_bana -> root_b_ba_ban_bana_banan
+	root_b_ba_ban_bana_banan_banana [label=banana]
+	root_b_ba_ban_bana_banan -> root_b_ba_ban_bana_banan_banana
+	root_b_ba_ban_bana_banan_banana_bananab [label=bananab]
+	root_b_ba_ban_bana_banan_banana -> root_b_ba_ban_bana_banan_banana_bananab
+	root_b_ba_ban_bana_banan_banana_bananab_bananaba [label=bananaba]
+	root_b_ba_ban_bana_banan_banana_bananab -> root_b_ba_ban_bana_banan_banana_bananab_bananaba
+	root_b_ba_ban_bana_banan_banana_bananab_bananaba_bananaban [label=bananaban]
+	root_b_ba_ban_bana_banan_banana_bananab_bananaba -> root_b_ba_ban_bana_banan_banana_bananab_bananaba_bananaban
+	root_b_ba_ban_bana_banan_banana_bananab_bananaba_bananaban_bananabana [label=bananabana]
+	root_b_ba_ban_bana_banan_banana_bananab_bananaba_bananaban -> root_b_ba_ban_bana_banan_banana_bananab_bananaba_bananaban_bananabana
+	root_b_ba_ban_bana_banan_banana_bananab_bananaba_bananaban_bananabana_bananabanab [label=bananabanab]
+	root_b_ba_ban_bana_banan_banana_bananab_bananaba_bananaban_bananabana -> root_b_ba_ban_bana_banan_banana_bananab_bananaba_bananaban_bananabana_bananabanab
+	root_b_ba_ban_bana_banan_banana_bananab_bananaba_bananaban_bananabana_bananabanab_bananabanaba [label=bananabanaba]
+	root_b_ba_ban_bana_banan_banana_bananab_bananaba_bananaban_bananabana_bananabanab -> root_b_ba_ban_bana_banan_banana_bananab_bananaba_bananaban_bananabana_bananabanab_bananabanaba
+	root_b_ba_ban_bana_banab [label=banab]
+	root_b_ba_ban_bana -> root_b_ba_ban_bana_banab
+	root_b_ba_ban_bana_banab_banaba [label=banaba]
+	root_b_ba_ban_bana_banab -> root_b_ba_ban_bana_banab_banaba
+	root_a [label=a]
+	root -> root_a
+	root_a_an [label=an]
+	root_a -> root_a_an
+	root_a_an_ana [label=ana]
+	root_a_an -> root_a_an_ana
+	root_a_an_ana_anan [label=anan]
+	root_a_an_ana -> root_a_an_ana_anan
+	root_a_an_ana_anan_anana [label=anana]
+	root_a_an_ana_anan -> root_a_an_ana_anan_anana
+	root_a_an_ana_anan_anana_ananab [label=ananab]
+	root_a_an_ana_anan_anana -> root_a_an_ana_anan_anana_ananab
+	root_a_an_ana_anan_anana_ananab_ananaba [label=ananaba]
+	root_a_an_ana_anan_anana_ananab -> root_a_an_ana_anan_anana_ananab_ananaba
+	root_a_an_ana_anan_anana_ananab_ananaba_ananaban [label=ananaban]
+	root_a_an_ana_anan_anana_ananab_ananaba -> root_a_an_ana_anan_anana_ananab_ananaba_ananaban
+	root_a_an_ana_anan_anana_ananab_ananaba_ananaban_ananabana [label=ananabana]
+	root_a_an_ana_anan_anana_ananab_ananaba_ananaban -> root_a_an_ana_anan_anana_ananab_ananaba_ananaban_ananabana
+	root_a_an_ana_anan_anana_ananab_ananaba_ananaban_ananabana_ananabanab [label=ananabanab]
+	root_a_an_ana_anan_anana_ananab_ananaba_ananaban_ananabana -> root_a_an_ana_anan_anana_ananab_ananaba_ananaban_ananabana_ananabanab
+	root_a_an_ana_anan_anana_ananab_ananaba_ananaban_ananabana_ananabanab_ananabanaba [label=ananabanaba]
+	root_a_an_ana_anan_anana_ananab_ananaba_ananaban_ananabana_ananabanab -> root_a_an_ana_anan_anana_ananab_ananaba_ananaban_ananabana_ananabanab_ananabanaba
+	root_a_an_ana_anab [label=anab]
+	root_a_an_ana -> root_a_an_ana_anab
+	root_a_an_ana_anab_anaba [label=anaba]
+	root_a_an_ana_anab -> root_a_an_ana_anab_anaba
+	root_a_an_ana_anab_anaba_anaban [label=anaban]
+	root_a_an_ana_anab_anaba -> root_a_an_ana_anab_anaba_anaban
+	root_a_an_ana_anab_anaba_anaban_anabana [label=anabana]
+	root_a_an_ana_anab_anaba_anaban -> root_a_an_ana_anab_anaba_anaban_anabana
+	root_a_an_ana_anab_anaba_anaban_anabana_anabanab [label=anabanab]
+	root_a_an_ana_anab_anaba_anaban_anabana -> root_a_an_ana_anab_anaba_anaban_anabana_anabanab
+	root_a_an_ana_anab_anaba_anaban_anabana_anabanab_anabanaba [label=anabanaba]
+	root_a_an_ana_anab_anaba_anaban_anabana_anabanab -> root_a_an_ana_anab_anaba_anaban_anabana_anabanab_anabanaba
+	root_a_ab [label=ab]
+	root_a -> root_a_ab
+	root_a_ab_aba [label=aba]
+	root_a_ab -> root_a_ab_aba
+	root_a_ab_aba_aban [label=aban]
+	root_a_ab_aba -> root_a_ab_aba_aban
+	root_a_ab_aba_aban_abana [label=abana]
+	root_a_ab_aba_aban -> root_a_ab_aba_aban_abana
+	root_a_ab_aba_aban_abana_abanab [label=abanab]
+	root_a_ab_aba_aban_abana -> root_a_ab_aba_aban_abana_abanab
+	root_a_ab_aba_aban_abana_abanab_abanaba [label=abanaba]
+	root_a_ab_aba_aban_abana_abanab -> root_a_ab_aba_aban_abana_abanab_abanaba
+	root_n [label=n]
+	root -> root_n
+	root_n_na [label=na]
+	root_n -> root_n_na
+	root_n_na_nan [label=nan]
+	root_n_na -> root_n_na_nan
+	root_n_na_nan_nana [label=nana]
+	root_n_na_nan -> root_n_na_nan_nana
+	root_n_na_nan_nana_nanab [label=nanab]
+	root_n_na_nan_nana -> root_n_na_nan_nana_nanab
+	root_n_na_nan_nana_nanab_nanaba [label=nanaba]
+	root_n_na_nan_nana_nanab -> root_n_na_nan_nana_nanab_nanaba
+	root_n_na_nan_nana_nanab_nanaba_nanaban [label=nanaban]
+	root_n_na_nan_nana_nanab_nanaba -> root_n_na_nan_nana_nanab_nanaba_nanaban
+	root_n_na_nan_nana_nanab_nanaba_nanaban_nanabana [label=nanabana]
+	root_n_na_nan_nana_nanab_nanaba_nanaban -> root_n_na_nan_nana_nanab_nanaba_nanaban_nanabana
+	root_n_na_nan_nana_nanab_nanaba_nanaban_nanabana_nanabanab [label=nanabanab]
+	root_n_na_nan_nana_nanab_nanaba_nanaban_nanabana -> root_n_na_nan_nana_nanab_nanaba_nanaban_nanabana_nanabanab
+	root_n_na_nan_nana_nanab_nanaba_nanaban_nanabana_nanabanab_nanabanaba [label=nanabanaba]
+	root_n_na_nan_nana_nanab_nanaba_nanaban_nanabana_nanabanab -> root_n_na_nan_nana_nanab_nanaba_nanaban_nanabana_nanabanab_nanabanaba
+	root_n_na_nab [label=nab]
+	root_n_na -> root_n_na_nab
+	root_n_na_nab_naba [label=naba]
+	root_n_na_nab -> root_n_na_nab_naba
+	root_n_na_nab_naba_naban [label=naban]
+	root_n_na_nab_naba -> root_n_na_nab_naba_naban
+	root_n_na_nab_naba_naban_nabana [label=nabana]
+	root_n_na_nab_naba_naban -> root_n_na_nab_naba_naban_nabana
+	root_n_na_nab_naba_naban_nabana_nabanab [label=nabanab]
+	root_n_na_nab_naba_naban_nabana -> root_n_na_nab_naba_naban_nabana_nabanab
+	root_n_na_nab_naba_naban_nabana_nabanab_nabanaba [label=nabanaba]
+	root_n_na_nab_naba_naban_nabana_nabanab -> root_n_na_nab_naba_naban_nabana_nabanab_nabanaba
+}

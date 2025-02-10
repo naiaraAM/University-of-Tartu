@@ -1,0 +1,862 @@
+\documentclass[11pt]{article}
+
+    \usepackage[breakable]{tcolorbox}
+    \usepackage{parskip} % Stop auto-indenting (to mimic markdown behaviour)
+    
+
+    % Basic figure setup, for now with no caption control since it's done
+    % automatically by Pandoc (which extracts ![](path) syntax from Markdown).
+    \usepackage{graphicx}
+    % Keep aspect ratio if custom image width or height is specified
+    \setkeys{Gin}{keepaspectratio}
+    % Maintain compatibility with old templates. Remove in nbconvert 6.0
+    \let\Oldincludegraphics\includegraphics
+    % Ensure that by default, figures have no caption (until we provide a
+    % proper Figure object with a Caption API and a way to capture that
+    % in the conversion process - todo).
+    \usepackage{caption}
+    \DeclareCaptionFormat{nocaption}{}
+    \captionsetup{format=nocaption,aboveskip=0pt,belowskip=0pt}
+
+    \usepackage{float}
+    \floatplacement{figure}{H} % forces figures to be placed at the correct location
+    \usepackage{xcolor} % Allow colors to be defined
+    \usepackage{enumerate} % Needed for markdown enumerations to work
+    \usepackage{geometry} % Used to adjust the document margins
+    \usepackage{amsmath} % Equations
+    \usepackage{amssymb} % Equations
+    \usepackage{textcomp} % defines textquotesingle
+    % Hack from http://tex.stackexchange.com/a/47451/13684:
+    \AtBeginDocument{%
+        \def\PYZsq{\textquotesingle}% Upright quotes in Pygmentized code
+    }
+    \usepackage{upquote} % Upright quotes for verbatim code
+    \usepackage{eurosym} % defines \euro
+
+    \usepackage{iftex}
+    \ifPDFTeX
+        \usepackage[T1]{fontenc}
+        \IfFileExists{alphabeta.sty}{
+              \usepackage{alphabeta}
+          }{
+              \usepackage[mathletters]{ucs}
+              \usepackage[utf8x]{inputenc}
+          }
+    \else
+        \usepackage{fontspec}
+        \usepackage{unicode-math}
+    \fi
+
+    \usepackage{fancyvrb} % verbatim replacement that allows latex
+    \usepackage{grffile} % extends the file name processing of package graphics
+                         % to support a larger range
+    \makeatletter % fix for old versions of grffile with XeLaTeX
+    \@ifpackagelater{grffile}{2019/11/01}
+    {
+      % Do nothing on new versions
+    }
+    {
+      \def\Gread@@xetex#1{%
+        \IfFileExists{"\Gin@base".bb}%
+        {\Gread@eps{\Gin@base.bb}}%
+        {\Gread@@xetex@aux#1}%
+      }
+    }
+    \makeatother
+    \usepackage[Export]{adjustbox} % Used to constrain images to a maximum size
+    \adjustboxset{max size={0.9\linewidth}{0.9\paperheight}}
+
+    % The hyperref package gives us a pdf with properly built
+    % internal navigation ('pdf bookmarks' for the table of contents,
+    % internal cross-reference links, web links for URLs, etc.)
+    \usepackage{hyperref}
+    % The default LaTeX title has an obnoxious amount of whitespace. By default,
+    % titling removes some of it. It also provides customization options.
+    \usepackage{titling}
+    \usepackage{longtable} % longtable support required by pandoc >1.10
+    \usepackage{booktabs}  % table support for pandoc > 1.12.2
+    \usepackage{array}     % table support for pandoc >= 2.11.3
+    \usepackage{calc}      % table minipage width calculation for pandoc >= 2.11.1
+    \usepackage[inline]{enumitem} % IRkernel/repr support (it uses the enumerate* environment)
+    \usepackage[normalem]{ulem} % ulem is needed to support strikethroughs (\sout)
+                                % normalem makes italics be italics, not underlines
+    \usepackage{soul}      % strikethrough (\st) support for pandoc >= 3.0.0
+    \usepackage{mathrsfs}
+    
+
+    
+    % Colors for the hyperref package
+    \definecolor{urlcolor}{rgb}{0,.145,.698}
+    \definecolor{linkcolor}{rgb}{.71,0.21,0.01}
+    \definecolor{citecolor}{rgb}{.12,.54,.11}
+
+    % ANSI colors
+    \definecolor{ansi-black}{HTML}{3E424D}
+    \definecolor{ansi-black-intense}{HTML}{282C36}
+    \definecolor{ansi-red}{HTML}{E75C58}
+    \definecolor{ansi-red-intense}{HTML}{B22B31}
+    \definecolor{ansi-green}{HTML}{00A250}
+    \definecolor{ansi-green-intense}{HTML}{007427}
+    \definecolor{ansi-yellow}{HTML}{DDB62B}
+    \definecolor{ansi-yellow-intense}{HTML}{B27D12}
+    \definecolor{ansi-blue}{HTML}{208FFB}
+    \definecolor{ansi-blue-intense}{HTML}{0065CA}
+    \definecolor{ansi-magenta}{HTML}{D160C4}
+    \definecolor{ansi-magenta-intense}{HTML}{A03196}
+    \definecolor{ansi-cyan}{HTML}{60C6C8}
+    \definecolor{ansi-cyan-intense}{HTML}{258F8F}
+    \definecolor{ansi-white}{HTML}{C5C1B4}
+    \definecolor{ansi-white-intense}{HTML}{A1A6B2}
+    \definecolor{ansi-default-inverse-fg}{HTML}{FFFFFF}
+    \definecolor{ansi-default-inverse-bg}{HTML}{000000}
+
+    % common color for the border for error outputs.
+    \definecolor{outerrorbackground}{HTML}{FFDFDF}
+
+    % commands and environments needed by pandoc snippets
+    % extracted from the output of `pandoc -s`
+    \providecommand{\tightlist}{%
+      \setlength{\itemsep}{0pt}\setlength{\parskip}{0pt}}
+    \DefineVerbatimEnvironment{Highlighting}{Verbatim}{commandchars=\\\{\}}
+    % Add ',fontsize=\small' for more characters per line
+    \newenvironment{Shaded}{}{}
+    \newcommand{\KeywordTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\DataTypeTok}[1]{\textcolor[rgb]{0.56,0.13,0.00}{{#1}}}
+    \newcommand{\DecValTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\BaseNTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\FloatTok}[1]{\textcolor[rgb]{0.25,0.63,0.44}{{#1}}}
+    \newcommand{\CharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\StringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\CommentTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textit{{#1}}}}
+    \newcommand{\OtherTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{{#1}}}
+    \newcommand{\AlertTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\FunctionTok}[1]{\textcolor[rgb]{0.02,0.16,0.49}{{#1}}}
+    \newcommand{\RegionMarkerTok}[1]{{#1}}
+    \newcommand{\ErrorTok}[1]{\textcolor[rgb]{1.00,0.00,0.00}{\textbf{{#1}}}}
+    \newcommand{\NormalTok}[1]{{#1}}
+
+    % Additional commands for more recent versions of Pandoc
+    \newcommand{\ConstantTok}[1]{\textcolor[rgb]{0.53,0.00,0.00}{{#1}}}
+    \newcommand{\SpecialCharTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\VerbatimStringTok}[1]{\textcolor[rgb]{0.25,0.44,0.63}{{#1}}}
+    \newcommand{\SpecialStringTok}[1]{\textcolor[rgb]{0.73,0.40,0.53}{{#1}}}
+    \newcommand{\ImportTok}[1]{{#1}}
+    \newcommand{\DocumentationTok}[1]{\textcolor[rgb]{0.73,0.13,0.13}{\textit{{#1}}}}
+    \newcommand{\AnnotationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\CommentVarTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\VariableTok}[1]{\textcolor[rgb]{0.10,0.09,0.49}{{#1}}}
+    \newcommand{\ControlFlowTok}[1]{\textcolor[rgb]{0.00,0.44,0.13}{\textbf{{#1}}}}
+    \newcommand{\OperatorTok}[1]{\textcolor[rgb]{0.40,0.40,0.40}{{#1}}}
+    \newcommand{\BuiltInTok}[1]{{#1}}
+    \newcommand{\ExtensionTok}[1]{{#1}}
+    \newcommand{\PreprocessorTok}[1]{\textcolor[rgb]{0.74,0.48,0.00}{{#1}}}
+    \newcommand{\AttributeTok}[1]{\textcolor[rgb]{0.49,0.56,0.16}{{#1}}}
+    \newcommand{\InformationTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+    \newcommand{\WarningTok}[1]{\textcolor[rgb]{0.38,0.63,0.69}{\textbf{\textit{{#1}}}}}
+
+
+    % Define a nice break command that doesn't care if a line doesn't already
+    % exist.
+    \def\br{\hspace*{\fill} \\* }
+    % Math Jax compatibility definitions
+    \def\gt{>}
+    \def\lt{<}
+    \let\Oldtex\TeX
+    \let\Oldlatex\LaTeX
+    \renewcommand{\TeX}{\textrm{\Oldtex}}
+    \renewcommand{\LaTeX}{\textrm{\Oldlatex}}
+    % Document parameters
+    % Document title
+    \title{HW4}
+    
+    
+    
+    
+    
+    
+    
+% Pygments definitions
+\makeatletter
+\def\PY@reset{\let\PY@it=\relax \let\PY@bf=\relax%
+    \let\PY@ul=\relax \let\PY@tc=\relax%
+    \let\PY@bc=\relax \let\PY@ff=\relax}
+\def\PY@tok#1{\csname PY@tok@#1\endcsname}
+\def\PY@toks#1+{\ifx\relax#1\empty\else%
+    \PY@tok{#1}\expandafter\PY@toks\fi}
+\def\PY@do#1{\PY@bc{\PY@tc{\PY@ul{%
+    \PY@it{\PY@bf{\PY@ff{#1}}}}}}}
+\def\PY#1#2{\PY@reset\PY@toks#1+\relax+\PY@do{#2}}
+
+\@namedef{PY@tok@w}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.73,0.73}{##1}}}
+\@namedef{PY@tok@c}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cp}{\def\PY@tc##1{\textcolor[rgb]{0.61,0.40,0.00}{##1}}}
+\@namedef{PY@tok@k}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kt}{\def\PY@tc##1{\textcolor[rgb]{0.69,0.00,0.25}{##1}}}
+\@namedef{PY@tok@o}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ow}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@nb}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nf}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@nn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@ne}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.80,0.25,0.22}{##1}}}
+\@namedef{PY@tok@nv}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@no}{\def\PY@tc##1{\textcolor[rgb]{0.53,0.00,0.00}{##1}}}
+\@namedef{PY@tok@nl}{\def\PY@tc##1{\textcolor[rgb]{0.46,0.46,0.00}{##1}}}
+\@namedef{PY@tok@ni}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@na}{\def\PY@tc##1{\textcolor[rgb]{0.41,0.47,0.13}{##1}}}
+\@namedef{PY@tok@nt}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@nd}{\def\PY@tc##1{\textcolor[rgb]{0.67,0.13,1.00}{##1}}}
+\@namedef{PY@tok@s}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sd}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@si}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@se}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.67,0.36,0.12}{##1}}}
+\@namedef{PY@tok@sr}{\def\PY@tc##1{\textcolor[rgb]{0.64,0.35,0.47}{##1}}}
+\@namedef{PY@tok@ss}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sx}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@m}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@gh}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gu}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.50,0.00,0.50}{##1}}}
+\@namedef{PY@tok@gd}{\def\PY@tc##1{\textcolor[rgb]{0.63,0.00,0.00}{##1}}}
+\@namedef{PY@tok@gi}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.52,0.00}{##1}}}
+\@namedef{PY@tok@gr}{\def\PY@tc##1{\textcolor[rgb]{0.89,0.00,0.00}{##1}}}
+\@namedef{PY@tok@ge}{\let\PY@it=\textit}
+\@namedef{PY@tok@gs}{\let\PY@bf=\textbf}
+\@namedef{PY@tok@ges}{\let\PY@bf=\textbf\let\PY@it=\textit}
+\@namedef{PY@tok@gp}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,0.50}{##1}}}
+\@namedef{PY@tok@go}{\def\PY@tc##1{\textcolor[rgb]{0.44,0.44,0.44}{##1}}}
+\@namedef{PY@tok@gt}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.27,0.87}{##1}}}
+\@namedef{PY@tok@err}{\def\PY@bc##1{{\setlength{\fboxsep}{\string -\fboxrule}\fcolorbox[rgb]{1.00,0.00,0.00}{1,1,1}{\strut ##1}}}}
+\@namedef{PY@tok@kc}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kd}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kn}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@kr}{\let\PY@bf=\textbf\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@bp}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.50,0.00}{##1}}}
+\@namedef{PY@tok@fm}{\def\PY@tc##1{\textcolor[rgb]{0.00,0.00,1.00}{##1}}}
+\@namedef{PY@tok@vc}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vg}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vi}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@vm}{\def\PY@tc##1{\textcolor[rgb]{0.10,0.09,0.49}{##1}}}
+\@namedef{PY@tok@sa}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sb}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sc}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@dl}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s2}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@sh}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@s1}{\def\PY@tc##1{\textcolor[rgb]{0.73,0.13,0.13}{##1}}}
+\@namedef{PY@tok@mb}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mf}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mh}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mi}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@il}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@mo}{\def\PY@tc##1{\textcolor[rgb]{0.40,0.40,0.40}{##1}}}
+\@namedef{PY@tok@ch}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cm}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cpf}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@c1}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+\@namedef{PY@tok@cs}{\let\PY@it=\textit\def\PY@tc##1{\textcolor[rgb]{0.24,0.48,0.48}{##1}}}
+
+\def\PYZbs{\char`\\}
+\def\PYZus{\char`\_}
+\def\PYZob{\char`\{}
+\def\PYZcb{\char`\}}
+\def\PYZca{\char`\^}
+\def\PYZam{\char`\&}
+\def\PYZlt{\char`\<}
+\def\PYZgt{\char`\>}
+\def\PYZsh{\char`\#}
+\def\PYZpc{\char`\%}
+\def\PYZdl{\char`\$}
+\def\PYZhy{\char`\-}
+\def\PYZsq{\char`\'}
+\def\PYZdq{\char`\"}
+\def\PYZti{\char`\~}
+% for compatibility with earlier versions
+\def\PYZat{@}
+\def\PYZlb{[}
+\def\PYZrb{]}
+\makeatother
+
+
+    % For linebreaks inside Verbatim environment from package fancyvrb.
+    \makeatletter
+        \newbox\Wrappedcontinuationbox
+        \newbox\Wrappedvisiblespacebox
+        \newcommand*\Wrappedvisiblespace {\textcolor{red}{\textvisiblespace}}
+        \newcommand*\Wrappedcontinuationsymbol {\textcolor{red}{\llap{\tiny$\m@th\hookrightarrow$}}}
+        \newcommand*\Wrappedcontinuationindent {3ex }
+        \newcommand*\Wrappedafterbreak {\kern\Wrappedcontinuationindent\copy\Wrappedcontinuationbox}
+        % Take advantage of the already applied Pygments mark-up to insert
+        % potential linebreaks for TeX processing.
+        %        {, <, #, %, $, ' and ": go to next line.
+        %        _, }, ^, &, >, - and ~: stay at end of broken line.
+        % Use of \textquotesingle for straight quote.
+        \newcommand*\Wrappedbreaksatspecials {%
+            \def\PYGZus{\discretionary{\char`\_}{\Wrappedafterbreak}{\char`\_}}%
+            \def\PYGZob{\discretionary{}{\Wrappedafterbreak\char`\{}{\char`\{}}%
+            \def\PYGZcb{\discretionary{\char`\}}{\Wrappedafterbreak}{\char`\}}}%
+            \def\PYGZca{\discretionary{\char`\^}{\Wrappedafterbreak}{\char`\^}}%
+            \def\PYGZam{\discretionary{\char`\&}{\Wrappedafterbreak}{\char`\&}}%
+            \def\PYGZlt{\discretionary{}{\Wrappedafterbreak\char`\<}{\char`\<}}%
+            \def\PYGZgt{\discretionary{\char`\>}{\Wrappedafterbreak}{\char`\>}}%
+            \def\PYGZsh{\discretionary{}{\Wrappedafterbreak\char`\#}{\char`\#}}%
+            \def\PYGZpc{\discretionary{}{\Wrappedafterbreak\char`\%}{\char`\%}}%
+            \def\PYGZdl{\discretionary{}{\Wrappedafterbreak\char`\$}{\char`\$}}%
+            \def\PYGZhy{\discretionary{\char`\-}{\Wrappedafterbreak}{\char`\-}}%
+            \def\PYGZsq{\discretionary{}{\Wrappedafterbreak\textquotesingle}{\textquotesingle}}%
+            \def\PYGZdq{\discretionary{}{\Wrappedafterbreak\char`\"}{\char`\"}}%
+            \def\PYGZti{\discretionary{\char`\~}{\Wrappedafterbreak}{\char`\~}}%
+        }
+        % Some characters . , ; ? ! / are not pygmentized.
+        % This macro makes them "active" and they will insert potential linebreaks
+        \newcommand*\Wrappedbreaksatpunct {%
+            \lccode`\~`\.\lowercase{\def~}{\discretionary{\hbox{\char`\.}}{\Wrappedafterbreak}{\hbox{\char`\.}}}%
+            \lccode`\~`\,\lowercase{\def~}{\discretionary{\hbox{\char`\,}}{\Wrappedafterbreak}{\hbox{\char`\,}}}%
+            \lccode`\~`\;\lowercase{\def~}{\discretionary{\hbox{\char`\;}}{\Wrappedafterbreak}{\hbox{\char`\;}}}%
+            \lccode`\~`\:\lowercase{\def~}{\discretionary{\hbox{\char`\:}}{\Wrappedafterbreak}{\hbox{\char`\:}}}%
+            \lccode`\~`\?\lowercase{\def~}{\discretionary{\hbox{\char`\?}}{\Wrappedafterbreak}{\hbox{\char`\?}}}%
+            \lccode`\~`\!\lowercase{\def~}{\discretionary{\hbox{\char`\!}}{\Wrappedafterbreak}{\hbox{\char`\!}}}%
+            \lccode`\~`\/\lowercase{\def~}{\discretionary{\hbox{\char`\/}}{\Wrappedafterbreak}{\hbox{\char`\/}}}%
+            \catcode`\.\active
+            \catcode`\,\active
+            \catcode`\;\active
+            \catcode`\:\active
+            \catcode`\?\active
+            \catcode`\!\active
+            \catcode`\/\active
+            \lccode`\~`\~
+        }
+    \makeatother
+
+    \let\OriginalVerbatim=\Verbatim
+    \makeatletter
+    \renewcommand{\Verbatim}[1][1]{%
+        %\parskip\z@skip
+        \sbox\Wrappedcontinuationbox {\Wrappedcontinuationsymbol}%
+        \sbox\Wrappedvisiblespacebox {\FV@SetupFont\Wrappedvisiblespace}%
+        \def\FancyVerbFormatLine ##1{\hsize\linewidth
+            \vtop{\raggedright\hyphenpenalty\z@\exhyphenpenalty\z@
+                \doublehyphendemerits\z@\finalhyphendemerits\z@
+                \strut ##1\strut}%
+        }%
+        % If the linebreak is at a space, the latter will be displayed as visible
+        % space at end of first line, and a continuation symbol starts next line.
+        % Stretch/shrink are however usually zero for typewriter font.
+        \def\FV@Space {%
+            \nobreak\hskip\z@ plus\fontdimen3\font minus\fontdimen4\font
+            \discretionary{\copy\Wrappedvisiblespacebox}{\Wrappedafterbreak}
+            {\kern\fontdimen2\font}%
+        }%
+
+        % Allow breaks at special characters using \PYG... macros.
+        \Wrappedbreaksatspecials
+        % Breaks at punctuation characters . , ; ? ! and / need catcode=\active
+        \OriginalVerbatim[#1,codes*=\Wrappedbreaksatpunct]%
+    }
+    \makeatother
+
+    % Exact colors from NB
+    \definecolor{incolor}{HTML}{303F9F}
+    \definecolor{outcolor}{HTML}{D84315}
+    \definecolor{cellborder}{HTML}{CFCFCF}
+    \definecolor{cellbackground}{HTML}{F7F7F7}
+
+    % prompt
+    \makeatletter
+    \newcommand{\boxspacing}{\kern\kvtcb@left@rule\kern\kvtcb@boxsep}
+    \makeatother
+    \newcommand{\prompt}[4]{
+        {\ttfamily\llap{{\color{#2}[#3]:\hspace{3pt}#4}}\vspace{-\baselineskip}}
+    }
+    
+
+    
+    % Prevent overflowing lines due to hard-to-break entities
+    \sloppy
+    % Setup hyperref package
+    \hypersetup{
+      breaklinks=true,  % so long urls are correctly broken across lines
+      colorlinks=true,
+      urlcolor=urlcolor,
+      linkcolor=linkcolor,
+      citecolor=citecolor,
+      }
+    % Slightly bigger margins than the latex defaults
+    
+    \geometry{verbose,tmargin=1in,bmargin=1in,lmargin=1in,rmargin=1in}
+    
+    
+
+\begin{document}
+    
+    \maketitle
+    
+    
+
+    
+    \hypertarget{homework-4---naiara-alonso-montes}{%
+\section{Homework 4 - Naiara Alonso
+Montes}\label{homework-4---naiara-alonso-montes}}
+
+    \hypertarget{problem-1}{%
+\subsection{Problem 1}\label{problem-1}}
+
+    \hypertarget{check-if-a-binary-linear-165-code-with-d_min-8-satisfies-the-griesmer-bound.}{%
+\subsubsection{\texorpdfstring{\emph{Check if a binary linear
+\([16,5]\)-code with \(d_{min} = 8\) satisfies the Griesmer
+bound.}}{Check if a binary linear {[}16,5{]}-code with d\_\{min\} = 8 satisfies the Griesmer bound.}}\label{check-if-a-binary-linear-165-code-with-d_min-8-satisfies-the-griesmer-bound.}}
+
+    We are working with a \emph{Reed-Muller} code. * \(n = 16\) * \(k = 5\)
+* \(d_{min} = 8\) * \(m = 4\) * \(r = 1\)
+
+\[n = ∑_0^{k - 1}⌈\frac{d_{min}}{2^i}⌉ = \]
+\[16 = ⌈\frac{8}{2^0}⌉ + ⌈\frac{8}{2^1}⌉ + ⌈\frac{8}{2^2}⌉ + ⌈\frac{8}{2^3}⌉ + ⌈\frac{8}{2^4}⌉\]
+
+The provided code satisfies the Griesmer bound.
+
+    \hypertarget{construct-a-generator-matrix-of-the-165-code-with-d_min-8}{%
+\subsubsection{\texorpdfstring{\emph{Construct a generator matrix of the
+\([16,5]\)-code with
+\(d_{min} = 8\)}}{Construct a generator matrix of the {[}16,5{]}-code with d\_\{min\} = 8}}\label{construct-a-generator-matrix-of-the-165-code-with-d_min-8}}
+
+    The generator matrix is constructed by evaluating these polynomials at
+all points in \(𝔽^2_4\). First we need to get all binary information set
+of length \(=4\).
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{ }{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{k+kn}{import} \PY{n+nn}{numpy} \PY{k}{as} \PY{n+nn}{np}
+
+\PY{k}{def} \PY{n+nf}{generate\PYZus{}information\PYZus{}set}\PY{p}{(}\PY{n}{length}\PY{p}{)}\PY{p}{:}
+    \PY{n}{num\PYZus{}combinations} \PY{o}{=} \PY{l+m+mi}{2}\PY{o}{*}\PY{o}{*}\PY{n}{length}
+    \PY{n}{information\PYZus{}set} \PY{o}{=} \PY{p}{[}\PY{p}{]}
+    \PY{k}{for} \PY{n}{i} \PY{o+ow}{in} \PY{n+nb}{range}\PY{p}{(}\PY{n}{num\PYZus{}combinations}\PY{p}{)}\PY{p}{:}
+      \PY{n}{binary\PYZus{}string} \PY{o}{=} \PY{n+nb}{bin}\PY{p}{(}\PY{n}{i}\PY{p}{)}\PY{p}{[}\PY{l+m+mi}{2}\PY{p}{:}\PY{p}{]}\PY{o}{.}\PY{n}{zfill}\PY{p}{(}\PY{n}{length}\PY{p}{)}  \PY{c+c1}{\PYZsh{} Convert to binary and pad with zeros}
+      \PY{n}{binary\PYZus{}list} \PY{o}{=} \PY{p}{[}\PY{n+nb}{int}\PY{p}{(}\PY{n}{bit}\PY{p}{)} \PY{k}{for} \PY{n}{bit} \PY{o+ow}{in} \PY{n}{binary\PYZus{}string}\PY{p}{]}  \PY{c+c1}{\PYZsh{} Convert to a list of ints}
+      \PY{n}{information\PYZus{}set}\PY{o}{.}\PY{n}{append}\PY{p}{(}\PY{n}{binary\PYZus{}list}\PY{p}{)}
+    \PY{k}{return} \PY{n}{np}\PY{o}{.}\PY{n}{array}\PY{p}{(}\PY{n}{information\PYZus{}set}\PY{p}{)}
+
+\PY{n+nb}{print}\PY{p}{(}\PY{n}{generate\PYZus{}information\PYZus{}set}\PY{p}{(}\PY{l+m+mi}{4}\PY{p}{)}\PY{p}{)}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}]
+[[0 0 0 0]
+ [0 0 0 1]
+ [0 0 1 0]
+ [0 0 1 1]
+ [0 1 0 0]
+ [0 1 0 1]
+ [0 1 1 0]
+ [0 1 1 1]
+ [1 0 0 0]
+ [1 0 0 1]
+ [1 0 1 0]
+ [1 0 1 1]
+ [1 1 0 0]
+ [1 1 0 1]
+ [1 1 1 0]
+ [1 1 1 1]]
+    \end{Verbatim}
+
+    Now, with all information sets, we need \(k\) polynomial, with one of
+them being constant, and the others \(x_1, x_2, x_3, x_4\).
+
+The generator matrix \(G\) looks as follow:
+
+\begin{equation}
+G=
+\begin{pmatrix}
+1\\
+\text{1 if 1 in position 1 of information set, 0 otherwise}\\
+\text{1 if 1 in position 2 of information set, 0 otherwise}\\
+\text{1 if 1 in position 3 of information set, 0 otherwise}\\
+\text{1 if 1 in position 4 of information set, 0 otherwise}\\
+\end{pmatrix}
+=
+\begin{pmatrix}
+1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 & 0 & 1 \\
+0 & 0 & 1 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1 & 0 & 0 & 1 & 1 \\
+0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 \\
+0 & 0 & 0 & 0 & 0 & 0 & 0 & 0 & 1 & 1 & 1 & 1 & 1 & 1 & 1 & 1 \\
+\end{pmatrix}
+\end{equation}
+
+    \hypertarget{let-n-33-k-19.-use-known-non-asymptotic-bounds-in-order-to-determine-the-range-of-possible-values-of-the-minimum-distance.}{%
+\subsubsection{\texorpdfstring{\emph{Let \(n = 33\), \(k = 19\). Use
+known non-asymptotic bounds in order to determine the range of possible
+values of the minimum
+distance.}}{Let n = 33, k = 19. Use known non-asymptotic bounds in order to determine the range of possible values of the minimum distance.}}\label{let-n-33-k-19.-use-known-non-asymptotic-bounds-in-order-to-determine-the-range-of-possible-values-of-the-minimum-distance.}}
+
+    \hypertarget{hamming-bound}{%
+\paragraph{Hamming bound}\label{hamming-bound}}
+
+\[d_H = ∑_{i = 0}^{⌊\frac{d - 1}{2}⌋}\binom{n}{i}(q - 1)^i≤q^{n - k}\]
+
+\begin{itemize}
+\tightlist
+\item
+  \(d = 0\); \(d_H = 0\)
+\item
+  \(d = 1\); \(d_H = 1\)
+\item
+  \(d = 2\); \(d_H = 1\)
+\item
+  \(d = 3\); \(d_H = 34\)
+\item
+  \(d = 4\); \(d_H = 34\)
+\item
+  \(d = 5\); \(d_H = 562\)
+\item
+  \(d = 6\); \(d_H = 562\)
+\item
+  \(d = 7\); \(d_H = 6018\)
+\item
+  \(d = 8\); \(d_H = 6018\)
+\item
+  \(d = 1 > q^{n - k}\)
+\end{itemize}
+
+\[d_H = 7; \text{ }d_{min}≤7\]
+
+    \hypertarget{singleton-bound}{%
+\paragraph{Singleton bound}\label{singleton-bound}}
+
+\[d_S ≤ n - k + 1\] \[d_S ≤15\]
+
+    \hypertarget{gilbert-varshamov-bound}{%
+\paragraph{Gilbert-Varshamov bound}\label{gilbert-varshamov-bound}}
+
+\[d_{GV} = ∑_{i = 0}^{d - 2}\binom{n - 1}{i}(q - 1)^i≤q^{n - k}\] *
+\(d = 0\); \(d_{GV} = 0\) * \(d = 1\); \(d_{GV} = 0\) * \(d = 2\);
+\(d_{GV} = 1\) * \(d = 3\); \(d_{GV} = 33\) * \(d = 4\);
+\(d_{GV} = 529\) * \(d = 5\); \(d_{GV} = 5489\) * \(d = 6 > q^{n - k}\)
+
+\[d_{GV} = 5; \text{ }d_{min}≤5\]
+
+It turns into lower bound
+
+    \hypertarget{solution}{%
+\paragraph{Solution}\label{solution}}
+
+\[6\le d_{min}\le7\] The lower bound is 6 and the upper bound is 7. The
+results obtained in
+\href{https://www.codetables.de/}{www.codetables.de/} are the same.
+
+    \hypertarget{problem-2}{%
+\subsection{Problem 2}\label{problem-2}}
+
+    \hypertarget{a-bch-code-of-length-31-correcting-2-errors-is-used-for-transmitting-messages.-the-primitive-polynomial-px-x5-x2-1-was-used-for-constructing-the-code.-at-the-output-of-the-bsc-we-observe-the-sequence-y-0101000001110101010011001111000-the-smallest-degree-is-the-first.-find-the-decoded-codeword-by-using-the-peterson-gorenstein-zierler-algorithm.}{%
+\subsubsection{\texorpdfstring{\emph{A BCH code of length 31 correcting
+2 errors is used for transmitting messages. The primitive polynomial
+\(p(x) = x^5 + x^2 + 1\) was used for constructing the code. At the
+output of the BSC we observe the sequence
+\(y = 0101000001110101010011001111000\) (the smallest degree is the
+first). Find the decoded codeword by using the
+Peterson-Gorenstein-Zierler
+algorithm.}}{A BCH code of length 31 correcting 2 errors is used for transmitting messages. The primitive polynomial p(x) = x\^{}5 + x\^{}2 + 1 was used for constructing the code. At the output of the BSC we observe the sequence y = 0101000001110101010011001111000 (the smallest degree is the first). Find the decoded codeword by using the Peterson-Gorenstein-Zierler algorithm.}}\label{a-bch-code-of-length-31-correcting-2-errors-is-used-for-transmitting-messages.-the-primitive-polynomial-px-x5-x2-1-was-used-for-constructing-the-code.-at-the-output-of-the-bsc-we-observe-the-sequence-y-0101000001110101010011001111000-the-smallest-degree-is-the-first.-find-the-decoded-codeword-by-using-the-peterson-gorenstein-zierler-algorithm.}}
+
+\textbf{Some code parameters} * \(d = 2t + 1 = 5\) *
+\(b(x) = x^{27} + x^{26} + x^{25} + x^{24} + x^{21} + x^{20} + x^{17} + x^{15} + x^{13} + x^{11} + x^{10} + x^{9} + x^{3} + x\)
+*
+\(s_1 = b(α) = α^{27} + α^{26} + α^{25} + α^{24} + α^{24} + α^{21} + α^{20} + α^{17} + α^{15} + α^{13} + α^{11} + α^{10} + α^{9} + α^{3} + α = α^{25}\)
+* \(s_2 = b(α^2) = s_1^2 = α^{19}\)
+\(s_1 = b(α^3) = α^{19} + α^{16} + α^{13} + α^{10} + α^{} + α^{29} + α^{20} + α^{14} + α^{8} + α^{2} + α^{30} + α^{27} + α^{9} + α^{3} = α^{3}\)
+* \(s_4 = b(α^4) = s_2^2 = α^{7}\)
+
+\textbf{Algorithm}
+
+\begin{equation}
+\begin{pmatrix}
+s_1 & s_2\\
+s_2 & s_3
+\end{pmatrix}
+\begin{pmatrix}
+Λ_2\\
+Λ_1
+\end{pmatrix}
+=
+\begin{pmatrix}
+-s_3\\
+-s_4
+\end{pmatrix}
+\end{equation}
+
+\[Δ = α^{28} + α^{7} = α\]
+
+\begin{equation}
+Δ_2 =
+\begin{vmatrix}
+α^{25} & α^{3}\\
+α^{19} & α^{7}
+\end{vmatrix}
+= α + α^{22} = α^{26}
+\end{equation}
+
+\begin{equation}
+Δ_1 =
+\begin{vmatrix}
+α^{3} & α^{19}\\
+α^{7} & α^{3}
+\end{vmatrix}
+= α^{6} + α^{22} = α^{14}
+\end{equation}
+
+\[Λ_2 = \frac{α^{14}}{α} = α^{13}\] \[Λ_1 = \frac{α^{26}}{α} = α^{25}\]
+
+\[Λ(x) = 1 + α^{25}x + α^{13}x^2\]
+
+The roots of \(Λ(x)\) are \(x_1= α^{21}\) and \(x_2 = α^{28}\), inverses
+are \(α^{10}\) and \(α^{3}\).
+
+\begin{equation}
+\begin{pmatrix}
+α^{10} & α^{3}\\
+α^{20} & α^{6}\\
+\end{pmatrix}
+\begin{pmatrix}
+y_1\\
+y_2
+\end{pmatrix}
+=
+\begin{pmatrix}
+α^{25}\\
+α^{29}\\
+\end{pmatrix}
+\end{equation}
+
+\[y = α^{10}⋅α^{6} + α^{20}⋅α^{3} = α^{16} + α^{23} = α^{7}\]
+\begin{equation}
+y_1 =\frac{
+\begin{vmatrix}
+α^{10} & α^{25}\\
+α^{20} & α^{29}
+\end{vmatrix}}{α^7}
+= \frac{α^{4}}{α^7} = α^{28}
+\end{equation} \begin{equation}
+y_2 =\frac{
+\begin{vmatrix}
+α^{25} & α^{3}\\
+α^{29} & α^{6}
+\end{vmatrix}}{α^7}
+= \frac{α^{18}}{α^7} = α^{11}
+\end{equation}
+
+Error values: \(α^{28}\) and \(α^{11}\)
+
+\(e(x) = α^{28}x^{21} + α^{11}x^{27}\)
+
+\(c(x) = b(x) - e(x) = α^{7}x^{27} + x^{26} + x^{25} + x^{24} + \alpha^{7}x^{21} + x^{20} + x^{17} + x^{15} + x^{13} + x^{11} + x^{10} + x^{9} + x^{3} + x\)
+
+    \hypertarget{problem-3}{%
+\subsection{Problem 3}\label{problem-3}}
+
+    \hypertarget{a-bch-code-of-length-31-correcting-2-errors-is-used-for-transmitting-messages.-the-primitive-polynomial-px-x5-x2-1-was-used-for-constructing-the-code.-at-the-output-of-the-bsc-we-observe-the-sequence-y-0101000001110101010011001111000-the-smallest-degree-is-the-first.-find-the-decoded-codeword-by-using-the-berlekamp-massey-algorithm.}{%
+\subsubsection{\texorpdfstring{\emph{A BCH code of length 31 correcting
+2 errors is used for transmitting messages. The primitive polynomial
+\(p(x) = x^5 + x^2 + 1\) was used for constructing the code. At the
+output of the BSC we observe the sequence
+\(y = 0101000001110101010011001111000\) (the smallest degree is the
+first). Find the decoded codeword by using the Berlekamp-Massey
+algorithm.}}{A BCH code of length 31 correcting 2 errors is used for transmitting messages. The primitive polynomial p(x) = x\^{}5 + x\^{}2 + 1 was used for constructing the code. At the output of the BSC we observe the sequence y = 0101000001110101010011001111000 (the smallest degree is the first). Find the decoded codeword by using the Berlekamp-Massey algorithm.}}\label{a-bch-code-of-length-31-correcting-2-errors-is-used-for-transmitting-messages.-the-primitive-polynomial-px-x5-x2-1-was-used-for-constructing-the-code.-at-the-output-of-the-bsc-we-observe-the-sequence-y-0101000001110101010011001111000-the-smallest-degree-is-the-first.-find-the-decoded-codeword-by-using-the-berlekamp-massey-algorithm.}}
+
+Based on the previous exercise we know:
+
+\[s_1 = b(α) = α^{25}; \text{ }s_2 = b(α^2) = s_1^2 = α^{19}; \text{ }s_3 = b(α^3) = α^{3}; \text{ }s_4 = b(α^4) = s_2^2 = α^{7}\]
+
+\textbf{Iter 1} * \(Δ = Λ_0⋅s_1 = 1⋅α^{25} = α^{25}\) *
+\(B(x) = x⋅B(x) = x⋅1 = x\) * \(T(x) = Λ(x)+ΔB(x) = 1 + α^{25}x\) *
+\(B(x) = Δ^{-1}Λ(x) = α^{6}⋅1 = α^{6}\) * \(L = r - L = 1 - 0 = 1\) *
+\(Λ(x) = T(x) = 1 + α^{25}x\)
+
+\textbf{Iter 2} *
+\(Δ = Λ_0⋅s_2 + Λ_1⋅s_1 = 1⋅\alpha^{19} + α^{25}⋅α^{25} = α^{19} + α^{19} = 0\)
+* \(B(x) = x⋅B(x) = x⋅α^{6} = α^{6}x\)
+
+\textbf{Iter 3} *
+\(Δ = Λ_0⋅s_3 + Λ_1⋅s_2 = 1⋅α^{3} + α^{25}⋅α^{19} = α^{3} + α^{13} = α^{7}\)
+* \(B(x) = x⋅B(x) = x⋅α^{6}x = α^{6}x^2\) *
+\(T(x) = Λ(x)+ΔB(x) = (1 + α^{25}x) + α^{7}(α^{6}x^2) = 1 + α{25}x + α^{13}x^2\)
+* \(B(x) = Δ^{-1}Λ(x) = α^{24}⋅(1 + α^{25}x) = (α^{24} + α^{18}x)\) *
+\(L = r - L = 3 - 1 = 2\) * \(Λ(x) = T(x) = 1 + α{25}x + α^{13}x^2\)
+
+\textbf{Iter 2} *
+\(Δ = Λ_0⋅s_4 + Λ_1⋅s_3 + Λ_2⋅s_2 = 1⋅α^{7} + α^{25}⋅α^{3} + α^{13}⋅α^{19} = α^{7} + α^{28} + α = 0\)
+* \(B(x) = x⋅B(x) = x⋅α^{6} = α^{24}x + α^{18}x^2\)
+
+\begin{longtable}[]{@{}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1232}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.2391}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1667}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1594}}
+  >{\raggedright\arraybackslash}p{(\columnwidth - 10\tabcolsep) * \real{0.1449}}@{}}
+\toprule\noalign{}
+\begin{minipage}[b]{\linewidth}\raggedright
+\(r\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(Δ\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(B(x)\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(T(x)\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+\(Λ(x)\)
+\end{minipage} & \begin{minipage}[b]{\linewidth}\raggedright
+L
+\end{minipage} \\
+\midrule\noalign{}
+\endhead
+\bottomrule\noalign{}
+\endlastfoot
+\(0\) & \(0\) & \(1\) & & \(1\) & \(0\) \\
+\(1\) & \(α^{25}\) & \(α^{6}\) & \(1 + α^{25}x\) & \(1 + α^{25}x\) &
+\(1\) \\
+\(2\) & 0 & \(α^{6}x\) & \(1 + α^{25}x\) & \(1 + α^{25}x\) & \(1\) \\
+\(3\) & \(α^{7}\) & \(α^{24} + α^{18}x\) & \(1 + α^{25}x + α^{13}x^2\) &
+\(1 + α^{25}x + α^{13}x^2\) & \(2\) \\
+\(4\) & 0 & \(α^{24}x + α^{18}x^2\) & \(1 + α^{25}x + α^{13}x^2\) &
+\(1 + α^{25}x + α^{13}x^2\) & \(2\) \\
+\end{longtable}
+
+\(Λ(x) = 1 + α^{25}x + α^{13}x^2\)
+
+The obtained \(Λ(x)\) is the same, so the result is also the same, error
+locators are inverses of the roots. Error locators: \(α^{21}\),
+\(α^{27}\).
+
+    \hypertarget{problem-4}{%
+\subsection{Problem 4}\label{problem-4}}
+
+    \hypertarget{find-the-gcd-d-of-two-integers-a-265-and-b-95-by-using-the-euclidean-algorithm.}{%
+\subsubsection{\texorpdfstring{\emph{Find the GCD \(D\) of two integers
+\(a = 265\) and \(b = 95\) by using the Euclidean
+algorithm.}}{Find the GCD D of two integers a = 265 and b = 95 by using the Euclidean algorithm.}}\label{find-the-gcd-d-of-two-integers-a-265-and-b-95-by-using-the-euclidean-algorithm.}}
+
+\hypertarget{find-the-representation-of-the-found-gcd-d-la-jb-where-l-and-j-are-integers.}{%
+\subsubsection{\texorpdfstring{\emph{Find the representation of the
+found GCD \(D = la + jb\), where \(l\) and \(j\) are
+integers.}}{Find the representation of the found GCD D = la + jb, where l and j are integers.}}\label{find-the-representation-of-the-found-gcd-d-la-jb-where-l-and-j-are-integers.}}
+
+    \[r_0 = a; \text{ }r_1 = b\] \[x_0 = 1; \text{ }x_1 = 0\]
+\[y_0 = 0; \text{ }y_1 = 1\]
+
+\[r_2 = r_0 + q_1⋅r_1 = a - q_1⋅b = 265 - 2 ⋅95 = 75\]
+\[x_2 = x_0 + q_1⋅x_1 = 1 - 2⋅0 =1\]
+\[y_2 = y_0 + q_1⋅y_1 = 0 - 2⋅1 =-2\]
+
+\[r_3 = r_1 + q_2⋅r_2 = 95 - 1 ⋅75 = 20\]
+\[x_3 = x_1 + q_2⋅x_2 = 0 - 1⋅1 =-1\]
+\[y_3 = y_1 + q_2⋅y_2 = 1 - 1⋅(-2) =3\]
+
+\[r_4 = r_2 + q_3⋅r_3 = 75 - 3 ⋅20 = 15\]
+\[x_4 = x_2 + q_3⋅x_3 = 1 - 3⋅(-1) =4\]
+\[y_4 = y_2 + q_3⋅y_3 = -2 - 3⋅3 = -11\]
+
+\[r_5 = r_3 + q_4⋅r_4 = 20 - 1⋅15 = 5\]
+\[x_5 = x_3 + q_4⋅x_4 = -1-1⋅4 = -5\]
+\[y_5 = y_3 + q_4⋅y_4 = 3-1⋅(-11)=14\]
+
+\[r_6 = r_4 + q_5⋅r_5 = 15 - 3⋅5 = 0\]
+
+\hypertarget{solution}{%
+\paragraph{Solution}\label{solution}}
+
+\[5 = (-5)⋅256 + 14⋅95\]
+
+    \hypertarget{find-the-gcd-of-two-polynomials-with-coefficients-in-gf5-ax-x3-x2-x-1-and-bx-x2-x-3}{%
+\subsubsection{\texorpdfstring{\emph{Find the GCD of two polynomials
+with coefficients in \(GF(5)\), \(a(x) = x^3 + x^2 + x + 1\) and
+\(b(x) = x^2 + x +3\)}}{Find the GCD of two polynomials with coefficients in GF(5), a(x) = x\^{}3 + x\^{}2 + x + 1 and b(x) = x\^{}2 + x +3}}\label{find-the-gcd-of-two-polynomials-with-coefficients-in-gf5-ax-x3-x2-x-1-and-bx-x2-x-3}}
+
+\hypertarget{find-the-representation-of-the-gcd-in-the-form-lxax-jxbx-where-lx-and-jx-are-polynomial-with-coefficients-in-gf5.}{%
+\subsubsection{\texorpdfstring{\emph{Find the representation of the GCD
+in the form \(l(x)a(x) + j(x)b(x)\) where \(l(x)\) and \(j(x)\) are
+polynomial with coefficients in
+\(GF(5)\).}}{Find the representation of the GCD in the form l(x)a(x) + j(x)b(x) where l(x) and j(x) are polynomial with coefficients in GF(5).}}\label{find-the-representation-of-the-gcd-in-the-form-lxax-jxbx-where-lx-and-jx-are-polynomial-with-coefficients-in-gf5.}}
+
+\begin{itemize}
+\item
+  \(r_0(x) = a(x); \text{ }r_1(x) = b(x)\)
+\item
+  \(x_0(x) = 1; \text{ }x_1(x) = 0\)
+\item
+  \(y_0(x) = 0; \text{ }y_1(x) = 1\)
+\item
+  \(r_2(x) = r_0(x) + q_1(x)⋅r_1(x) = a(x) - q_1(x)⋅b(x) = (x^3 + x^2 + x + 1) - (x)(x^2 + x + 3) = 3x + 1\)
+\item
+  \(x_2(x) = x_0(x) + q_1(x)⋅x_1(x) = 1 - (x)⋅0 =1\)
+\item
+  \(y_2(x) = y_0(x) + q_1(x)⋅y_1(x) = 0 - (x)⋅1 =4x\)
+\item
+  \(r_3(x) = r_1(x) + q_2(x)⋅r_2(x) = (x^2 + x + 3) - (2x)(3x + 1) = 4x + 3\)
+\item
+  \(x_3(x) = x_1(x) + q_2(x)⋅x_2(x) = 0 - (2x)(1) = 3x\)
+\item
+  \(y_3(x) = y_1(x) + q_2(x)⋅y_2(x) = 1 - (2x)(4x) = 1 - 8x^2 ≡ 1 - 3x^2 ≡ 2x^2 + 1\)
+\item
+  \(r_4(x) = r_2(x) + q_3(x)⋅r_3(x) = (3x + 1) - 2(4x + 3) = 0\)
+\end{itemize}
+
+\hypertarget{solution}{%
+\paragraph{Solution}\label{solution}}
+
+\[4x + 3 = 3x(x^3 + x^2 + x + 1) + (2x^2 + 1)(x^2 + x + 3)\]
+
+    \hypertarget{a-bch-code-of-length-32-correcting-1-errors-is-used-for-transmitting-messages.-the-primitive-polynomial-px-x5-x2-1-was-used-for-constructing-the-code.-at-the-output-of-the-bsc-we-observe-the-sequence-y-0101000001110101010011001111000.-find-the-decoded-codeword-by-using-the-euclidean-algorithm.}{%
+\subsection{\texorpdfstring{\emph{A BCH code of length 32 correcting 1
+errors is used for transmitting messages. The primitive polynomial
+\(p(x) = x^5 + x^2 + 1\) was used for constructing the code. At the
+output of the BSC we observe the sequence
+\(y = 0101000001110101010011001111000\). Find the decoded codeword by
+using the Euclidean
+algorithm.}}{A BCH code of length 32 correcting 1 errors is used for transmitting messages. The primitive polynomial p(x) = x\^{}5 + x\^{}2 + 1 was used for constructing the code. At the output of the BSC we observe the sequence y = 0101000001110101010011001111000. Find the decoded codeword by using the Euclidean algorithm.}}\label{a-bch-code-of-length-32-correcting-1-errors-is-used-for-transmitting-messages.-the-primitive-polynomial-px-x5-x2-1-was-used-for-constructing-the-code.-at-the-output-of-the-bsc-we-observe-the-sequence-y-0101000001110101010011001111000.-find-the-decoded-codeword-by-using-the-euclidean-algorithm.}}
+
+\begin{itemize}
+\tightlist
+\item
+  \(a(x) = x^{2t}≡x^4\)
+\item
+  \(b(x) = α^7x^3 + α^3x^2 + α^{19}x + α^{25}\)
+\end{itemize}
+
+\textbf{Euclidean algorithm, stop condition, degree of \(r_n < t\)}
+
+\begin{itemize}
+\item
+  \(r_2 = x^4 - (α^7x^3 + α^3x^2 + α^{19}x + α^{25})(α^{24}x + α^{20}) = x^2 + α^{12}x + α^{14}\)
+\item
+  \(y_2 = 0 - 1⋅(α^{24}x + α^{20})\)
+\item
+  \(r_3 = (α^7x^3 + α^3x^2 + α^{19}x + α^{25}) - (x^2 + α^{12}x + \alpha{14})(α^{7}x + α^{12}) = α^{12}\)
+\item
+  \(y_3 = 1 + (α^{24}x + α^{20})(α^{7} + α^{12}) = α^{18} + α^{12}x + x^2 = 1 + α^{25}x + α^{13}x^2\)
+\end{itemize}
+
+\(Λ(x) = 1 + α^{25}x + α^{13}x^2\)
+
+\(Ω(x) = α^{12}\)
+
+    \begin{tcolorbox}[breakable, size=fbox, boxrule=1pt, pad at break*=1mm,colback=cellbackground, colframe=cellborder]
+\prompt{In}{incolor}{7}{\boxspacing}
+\begin{Verbatim}[commandchars=\\\{\}]
+\PY{err}{!}\PY{n}{jupyter} \PY{n}{nbconvert} \PY{o}{\PYZhy{}}\PY{o}{\PYZhy{}}\PY{n}{to} \PY{n}{latex} \PY{n}{HW4}\PY{o}{.}\PY{n}{ipynb}
+\end{Verbatim}
+\end{tcolorbox}
+
+    \begin{Verbatim}[commandchars=\\\{\}, frame=single, framerule=2mm, rulecolor=\color{outerrorbackground}]
+\textcolor{ansi-cyan}{  Cell }\textcolor{ansi-green}{In[7], line 1}
+\textcolor{ansi-red}{    jupyter nbconvert --to latex HW4.ipynb}
+            \^{}
+\textcolor{ansi-red}{SyntaxError}\textcolor{ansi-red}{:} invalid syntax
+
+    \end{Verbatim}
+
+
+    % Add a bibliography block to the postdoc
+    
+    
+    
+\end{document}
