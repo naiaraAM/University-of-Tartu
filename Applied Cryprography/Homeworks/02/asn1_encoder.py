@@ -52,9 +52,15 @@ class  DERencoder:
         for bit in bitstr:
             val = (val << 1) | (1 if bit == '1' else 0)
         val <<= unused_bits
+
+        required_bytes = (nbits + 7) // 8
         value_bytes = bytes([unused_bits])
+
         if nbits > 0:
-            value_bytes += ib(val)
+            val_bytes = ib(val)
+            padding = b'\x00' * (required_bytes - len(val_bytes))
+            value_bytes += padding + val_bytes
+
         length = self.asn1_len(value_bytes)
         return type_byte + length + value_bytes
 
@@ -111,12 +117,7 @@ class  DERencoder:
 
     def asn1_utctime(self, time):
         type_byte = bytes([0x17])
-        if not isinstance(time, str) or len(time) != 13 or not time.endswith('Z'):  # Check format
-            print("Error: Invalid time format")
-            sys.exit(-1)
-
         value_bytes = time.encode('ascii')
-
         length = self.asn1_len(value_bytes)
         return type_byte + length + value_bytes
 
