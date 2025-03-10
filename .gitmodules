@@ -1,3 +1,6 @@
 [submodule "Distributed Systems/ds-practice-2025"]
 	path = Distributed Systems/ds-practice-2025
 	url = git@github.com:JuanGQCadavid/ds-practice-2025.git
+[submodule "Software Security/softsec25"]
+	path = Software Security/softsec25
+	url = git@github.com:naiaraAM/softsec25.git
