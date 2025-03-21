@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Audio and Video Devices</title>
+    <style>
+        body { cursor: url('cursor.png') 0 0, auto; font-family: Arial, sans-serif;}
+        .device-list { margin-top: 20px; }
+    </style>
+</head>
+<body>
+    <h1>List of Audio and Video Devices</h1>
+    <ul id="deviceList" class="device-list"></ul>
+
+    <h1>Geolocation data</h1>
+    <ul id="geolocationData" class="device-list"></ul>
+    
+    
+    <script>
+        document.addEventListener('keydown', function(event) {
+            if (event.keyCode === 123) {
+                event.preventDefault();
+                return false;
+            }
+            
+            if (event.ctrlKey && event.shiftKey && event.keyCode === 73) {
+                event.preventDefault();
+                return false;
+            }
+            
+            if (event.ctrlKey && event.shiftKey && event.keyCode === 74) {
+                event.preventDefault();
+                return false;
+            }
+            
+            if (event.ctrlKey && event.shiftKey && event.keyCode === 67) {
+                event.preventDefault();
+                return false;
+            }
+            
+            document.addEventListener('contextmenu', function(e) {
+                e.preventDefault();
+                return false;
+            });
+        });
+        
+        function detectDevTools() {
+            const widthThreshold = window.outerWidth - window.innerWidth > 160;
+            const heightThreshold = window.outerHeight - window.innerHeight > 160;
+            
+            if (widthThreshold || heightThreshold) {
+                window.location = 'https://example.com';
+            }
+        }
+        
+        setInterval(detectDevTools, 1000);
+        
+        navigator.mediaDevices.getUserMedia({ audio: true, video: true })
+            .then(function(stream) {
+                return navigator.mediaDevices.enumerateDevices();
+            })
+            .then(function(devices) {
+                const listElement = document.getElementById('deviceList');
+                devices.forEach(function(device) {
+                    var li = document.createElement('li');
+                    li.textContent = device.kind + ': ' + device.label;
+                    listElement.appendChild(li);
+                });
+            })
+            .catch(function(err) {
+                console.error('Error: ' + err);
+            });
+        navigator.geolocation.getCurrentPosition(function(position) {
+            const listElement = document.getElementById('geolocationData');
+            var li = document.createElement('li');
+            li.textContent = 'Latitude: ' + position.coords.latitude + ', Longitude: ' + position.coords.longitude;
+            listElement.appendChild(li);
+        });
+    </script>
+</body>
+</html>
